@@ -9,6 +9,7 @@ import { ToastProvider } from "./context/ToastContext";
 import Products from "./pages/Products";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
+import Orders from "./pages/Orders";
 import "./App.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/products" element={<Products />} />
               <Route path="/admin" element={<AdminRoute> <AdminDashboard /> </AdminRoute>} />
+              <Route path="/orders" element={<Orders />} />
             </Routes>
           </main>
 

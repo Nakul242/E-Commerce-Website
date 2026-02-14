@@ -63,3 +63,20 @@
   margin-top: 20px;
   font-size: 18px;
 }
+
+.checkout-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff6b00, #ff8c42);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4);
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import "./Cart.css";
@@ -8,6 +9,7 @@ function Cart() {
   const [cart, setCart] = useState(null);
   const { token } = useContext(AuthContext);
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCart();
@@ -65,6 +67,31 @@ function Cart() {
     );
   };
 
+  const handleCheckout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/orders",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      showToast("Payment Successful (Demo Mode)", "success");
+
+      // Refresh cart locally
+      setCart({ items: [] });
+
+      // Redirect to orders page
+      setTimeout(() => {
+        navigate("/orders");
+      }, 1200);
+
+    } catch (err) {
+      showToast("Checkout failed", "error");
+    }
+  };
+
   if (!cart || cart.items.length === 0) {
     return (
       <div className="cart-container">
@@ -104,6 +131,13 @@ function Cart() {
 
       <div className="cart-summary">
         <h3>Total: ₹ {getTotal()}</h3>
+
+        <button
+          className="checkout-btn"
+          onClick={handleCheckout}
+        >
+          Proceed to Payment
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,11 @@
 const router = require("express").Router();
-const { createOrder } = require("../controllers/orderController");
 const { protect } = require("../middleware/authMiddleware");
+const {
+  createOrder,
+  getMyOrders
+} = require("../controllers/orderController");
 
 router.post("/", protect, createOrder);
+router.get("/my-orders", protect, getMyOrders);
 
 module.exports = router;

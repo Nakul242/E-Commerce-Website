@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "./Auth.css";
 
 function Signup() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     name: "",
@@ -13,18 +15,29 @@ function Signup() {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post(
-      "http://localhost:5000/api/auth/signup",
-      form
-    );
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        form
+      );
 
-    navigate("/login");
+      // Auto login
+      login(res.data.token);
+
+      navigate("/products");
+
+    } catch (err) {
+      alert("Signup failed");
+    }
   };
 
   return (
@@ -57,10 +70,6 @@ function Signup() {
         />
 
         <button type="submit">Sign Up</button>
-
-        <p>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
       </form>
     </div>
   );

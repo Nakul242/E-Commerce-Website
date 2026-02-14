@@ -19,9 +19,19 @@ exports.signup = async (req, res) => {
       password
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role
+      },
+      process.env.JWT_SECRET || "secret",
+      { expiresIn: "7d" }
+    );
+
+    res.status(201).json({ token });
 
   } catch (err) {
+    console.error("Signup Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -48,13 +58,14 @@ exports.login = async (req, res) => {
         id: user._id,
         role: user.role
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "secret",
       { expiresIn: "7d" }
     );
 
     res.json({ token });
 
   } catch (err) {
+    console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
