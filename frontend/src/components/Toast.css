@@ -1,0 +1,51 @@
+/* src/components/Toast.css */
+.toast {
+    position: fixed;
+    top: 80px;
+    /* Below navbar */
+    right: 20px;
+    min-width: 250px;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-info {
+    background-color: var(--color-primary);
+}
+
+.toast-success {
+    background-color: #10b981;
+}
+
+.toast-error {
+    background-color: #ef4444;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    margin-left: 1rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

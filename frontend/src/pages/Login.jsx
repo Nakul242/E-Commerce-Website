@@ -1,53 +1,62 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import "./Auth.css";
 
 function Login() {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
     password: ""
   });
 
-  const { login } = useContext(AuthContext);
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        form
-      );
+    const res = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      form
+    );
 
-      console.log("Login response:", res.data);
-
-      login(res.data.token);
-      alert("Login successful!");
-
-    } catch (err) {
-      console.error("Login error:", err);
-      alert(err.response?.data?.message || "Error");
-    }
+    login(res.data.token);
+    navigate("/products");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+    <div className="auth-container">
+      <form className="auth-card" onSubmit={handleSubmit}>
+        <h2>Login</h2>
 
-      <input
-        placeholder="Email"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+        />
 
-      <button type="submit">Login</button>
-    </form>
+        <button type="submit">Login</button>
+
+        <p>
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
+      </form>
+    </div>
   );
 }
 

@@ -1,25 +1,37 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { ToastProvider } from "./context/ToastContext";
+import Products from "./pages/Products";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminRoute from "./components/AdminRoute";
+import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> | 
-        <Link to="/login">Login</Link> | 
-        <Link to="/signup">Signup</Link> | 
-        <Link to="/cart">Cart</Link>
-      </nav>
+      <ToastProvider>
+        <div className="app-layout">
+          <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/admin" element={<AdminRoute> <AdminDashboard /> </AdminRoute>} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
+      </ToastProvider>
     </BrowserRouter>
   );
 }
